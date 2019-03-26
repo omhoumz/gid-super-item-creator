@@ -1,32 +1,15 @@
 .app {
   width: 100%;
   max-width: 740px;
-  margin: 4rem auto;
+  margin: auto;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-.item-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #efefef;
-}
-.item > * + * {
-  margin-left: 1rem;
-}
-.item-image {
-  height: 60px;
-  width: 60px;
-  object-fit: cover;
-}
-.item-title {
-  margin: 1rem;
-}
-.item-city {
-  margin-left: auto;
-  font-style: italic;
+.heading {
+  color: #d9dfe7;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  margin-top: 0.4rem;
 }
