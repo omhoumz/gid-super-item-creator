@@ -1,25 +1,38 @@
 import React, { Component } from "react";
 
-import { items } from "./data";
+import { AllItems } from "./components/all-items/all-items";
+import { AddItemForm } from "./components/add-item-form/add-item-form";
+
+import { initialItems } from "./data";
 import "./app.css";
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      items: []
+    };
+  }
+
+  componentWillMount = () => {
+    this.setState({
+      items: initialItems
+    });
+  };
+
+  handleSubmit = ({ title, city }) => {
+    const newItem = { city, title };
+    const newItems = [newItem, ...this.state.items];
+
+    this.setState({ items: newItems });
+  };
+
   render() {
+    const { items } = this.state;
     return (
       <div className="app">
-        <ul className="item-list">
-          {items.map(item => (
-            <li className="item">
-              <img
-                className="item-image"
-                alt=""
-                src="https://picsum.photos/200/300"
-              />
-              <span className="item-title">{item.title}</span>
-              <span className="item-city">{item.city}</span>
-            </li>
-          ))}
-        </ul>
+        <AddItemForm onSubmit={this.handleSubmit} />
+        <AllItems items={items} />
       </div>
     );
   }
