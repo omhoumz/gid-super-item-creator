@@ -1,0 +1,21 @@
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #efefef;
+}
+.item > * + * {
+  margin-left: 1rem;
+}
+.item-image {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+}
+.item-title {
+  margin: 1rem;
+}
+.item-city {
+  margin-left: auto;
+  font-style: italic;
+}
