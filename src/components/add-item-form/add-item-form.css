@@ -5,6 +5,7 @@
 }
 .add-item-form .data-inputs {
   display: flex;
+  flex-wrap: wrap;
 }
 .add-item-form label {
   margin-bottom: 1rem;
