@@ -23,7 +23,7 @@ export class ItemForm extends React.PureComponent {
   };
 
   render() {
-    const { buttunLabel, heading } = this.props;
+    const { buttonLabel, heading } = this.props;
 
     return (
       <form className="item-form" onSubmit={this.onSubmit}>
@@ -52,7 +52,7 @@ export class ItemForm extends React.PureComponent {
           </label>
         </div>
         <button type="submit" className="btn blue">
-          {buttunLabel}
+          {buttonLabel}
         </button>
       </form>
     );
