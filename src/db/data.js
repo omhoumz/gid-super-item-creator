@@ -2,6 +2,11 @@ import uuid from "uuid";
 
 export const CITIES_LIST = ["Casablanca", "Rabat", "Tangier", "Agadir"];
 
+export const FORM_STATES = {
+  ADDING_ITEMS: "ADDING_ITEMS",
+  EDITING_ITEM: "EDITING_ITEM"
+};
+
 export const initialItems = [
   {
     id: uuid(),
