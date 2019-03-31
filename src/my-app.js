@@ -14,7 +14,7 @@ import {
 } from "./db/db";
 import { getBase64Image } from "./utils";
 import { initialItems } from "./db/data";
-import "./app.css";
+import "./my-app.css";
 
 class App extends Component {
   constructor() {

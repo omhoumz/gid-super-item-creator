@@ -28,11 +28,9 @@
 .btn:hover {
   background-color: #333232;
 }
-
 .btn.sm {
   padding: 0.4rem 0.7rem;
 }
-
 .btn.blue {
   background-color: royalblue;
 }
