@@ -1,9 +1,9 @@
 import React from "react";
 
 import { CITIES_LIST } from "../../db/data";
-import "./add-item-form.css";
+import "./item-form.css";
 
-export class AddItemForm extends React.PureComponent {
+export class ItemForm extends React.PureComponent {
   onSubmit = event => {
     event.preventDefault();
     const title = event.target.title.value;
@@ -23,9 +23,11 @@ export class AddItemForm extends React.PureComponent {
   };
 
   render() {
+    const { buttunLabel, heading } = this.props;
+
     return (
-      <form className="add-item-form" onSubmit={this.onSubmit}>
-        <h2 className="heading">Add an item:</h2>
+      <form className="item-form" onSubmit={this.onSubmit}>
+        <h2 className="heading">{heading}</h2>
         <div className="data-inputs">
           <label htmlFor="image">
             Image:
@@ -49,8 +51,8 @@ export class AddItemForm extends React.PureComponent {
             </select>
           </label>
         </div>
-        <button type="submit" className="add-item">
-          ADD ITEM
+        <button type="submit" className="btn blue">
+          {buttunLabel}
         </button>
       </form>
     );
