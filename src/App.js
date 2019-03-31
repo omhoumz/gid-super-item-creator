@@ -8,8 +8,8 @@ import {
   DB_NAME,
   getDb,
   updateDb,
-  deleteItem
-  // getItem,
+  deleteItem,
+  getItem
   // saveItem
 } from "./db/db";
 import { getBase64Image } from "./utils";
