@@ -19,9 +19,9 @@ export const getItem = id => {
   return allItems.find(item => item.id === id);
 };
 
-export const saveItem = item => {
+export const addItem = item => {
   const oldItems = getDb(DB_NAME);
-  updateDb(DB_NAME, JSON.stringify([...oldItems, item]));
+  updateDb(DB_NAME, [item, ...oldItems]);
 };
 
 export const updateItem = item => {
