@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CITIES_LIST } from "../../data";
+import { CITIES_LIST } from "../../db/data";
 import "./add-item-form.css";
 
 export class AddItemForm extends React.PureComponent {
@@ -8,9 +8,9 @@ export class AddItemForm extends React.PureComponent {
     event.preventDefault();
     const title = event.target.title.value;
     const city = event.target.city.value;
-    const image = event.target.image.value;
+    const imageFile = event.target.image.files[0];
 
-    if (title === "" || city === "" || image === "") {
+    if (title === "" || city === "" || !imageFile) {
       alert("Fill all fields!");
       return;
     }
@@ -19,7 +19,7 @@ export class AddItemForm extends React.PureComponent {
     event.target.city.value = "";
     event.target.image.value = "";
 
-    this.props.onSubmit({ title, city });
+    this.props.onSubmit({ title, city, imageFile });
   };
 
   render() {
