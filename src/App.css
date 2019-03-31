@@ -1,6 +1,6 @@
 .app {
   width: 100%;
-  max-width: 740px;
+  max-width: 960px;
   margin: auto;
   padding: 2rem;
   box-sizing: border-box;
@@ -12,4 +12,30 @@
   font-weight: 400;
   margin-bottom: 2rem;
   margin-top: 0.4rem;
+}
+
+.btn {
+  color: white;
+  background-color: #545454;
+  letter-spacing: 1px;
+  padding: 0.7rem 1.3rem;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 90ms ease-in-out;
+}
+.btn:hover {
+  background-color: #333232;
+}
+
+.btn.sm {
+  padding: 0.4rem 0.7rem;
+}
+
+.btn.blue {
+  background-color: royalblue;
+}
+.btn.blue:hover {
+  background-color: #395fcf;
 }
