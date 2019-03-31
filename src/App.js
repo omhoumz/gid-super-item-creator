@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import uuidv1 from "uuid/v1";
 
 import { AllItems } from "./components/all-items/all-items";
-import { AddItemForm } from "./components/add-item-form/add-item-form";
+import { ItemForm } from "./components/item-form/item-form";
 
 import {
   DB_NAME,
@@ -44,6 +44,13 @@ class App extends Component {
     this.updateState();
   };
 
+  handleEdit = id => {
+    this.setState({
+      edited_item: { ...getItem(id) }
+    });
+    console.log(getItem(id));
+  };
+
   updateState = () => {
     let allItems = getDb(DB_NAME);
     if (!allItems) {
@@ -58,8 +65,16 @@ class App extends Component {
     const { items } = this.state;
     return (
       <div className="app">
-        <AddItemForm onSubmit={this.handleSubmit} />
-        <AllItems items={items} onDelete={this.handleDelete} />
+        <ItemForm
+          onSubmit={this.handleSubmit}
+          heading="Edit Item"
+          buttonLabel="ADD ITEM"
+        />
+        <AllItems
+          items={items}
+          onDelete={this.handleDelete}
+          onEdit={this.handleEdit}
+        />
       </div>
     );
   }
