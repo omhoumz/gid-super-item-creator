@@ -13,7 +13,7 @@ import {
   addItem
 } from "./db/db";
 import { getBase64Image } from "./utils";
-import { initialItems } from "./db/data";
+import { initialItems, FORM_STATES } from "./db/data";
 import "./my-app.css";
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
     super();
     this.state = {
       items: [],
-      form_state: "adding-item"
+      form_state: FORM_STATES.ADDING_ITEMS
     };
   }
 
@@ -54,7 +54,7 @@ class App extends Component {
       newItem = { id: uuidv1(), city, title, image: imageFileBase24 };
     }
 
-    this.setState({ form_state: "adding-item" });
+    this.setState({ form_state: FORM_STATES.ADDING_ITEMS });
 
     addItem(newItem);
     this.updateState();
@@ -68,7 +68,7 @@ class App extends Component {
   handleEdit = id => {
     this.setState({
       edited_item: { ...getItem(id) },
-      form_state: "editing-item"
+      form_state: FORM_STATES.EDITING_ITEM
     });
   };
 
@@ -87,7 +87,7 @@ class App extends Component {
 
     return (
       <div className="app">
-        {form_state === "editing-item" ? (
+        {form_state === FORM_STATES.EDITING_ITEM ? (
           <ItemForm
             edit_item={edited_item}
             onSubmit={this.handleSubmit}
