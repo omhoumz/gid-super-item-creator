@@ -3,7 +3,7 @@ import React from "react";
 import { Item } from "./item/item";
 import "./all-items.css";
 
-export const AllItems = ({ items, onDelete }) => {
+export const AllItems = ({ items, onDelete, onEdit }) => {
   return (
     <React.Fragment>
       <h2 className="heading">All Items</h2>
@@ -16,6 +16,7 @@ export const AllItems = ({ items, onDelete }) => {
             city={item.city}
             key={index}
             onDelete={onDelete}
+            onEdit={onEdit}
           />
         ))}
       </ul>
