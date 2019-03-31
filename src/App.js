@@ -1,9 +1,19 @@
 import React, { Component } from "react";
+import uuidv1 from "uuid/v1";
 
 import { AllItems } from "./components/all-items/all-items";
 import { AddItemForm } from "./components/add-item-form/add-item-form";
 
-import { initialItems } from "./data";
+import {
+  DB_NAME,
+  getDb,
+  updateDb,
+  deleteItem
+  // getItem,
+  // saveItem
+} from "./db/db";
+import { getBase64Image } from "./utils";
+import { initialItems } from "./db/data";
 import "./app.css";
 
 class App extends Component {
@@ -15,16 +25,33 @@ class App extends Component {
   }
 
   componentWillMount = () => {
-    this.setState({
-      items: initialItems
-    });
+    this.updateState();
   };
 
-  handleSubmit = ({ title, city }) => {
-    const newItem = { city, title };
-    const newItems = [newItem, ...this.state.items];
+  handleSubmit = async ({ title, city, imageFile }) => {
+    await getBase64Image(imageFile).then(base64 => {
+      const newItem = { id: uuidv1(), city, title, image: base64 };
+      const newItems = [newItem, ...getDb(DB_NAME)];
 
-    this.setState({ items: newItems });
+      updateDb(DB_NAME, newItems);
+    });
+
+    this.setState({ items: getDb(DB_NAME) });
+  };
+
+  handleDelete = id => {
+    deleteItem(id);
+    this.updateState();
+  };
+
+  updateState = () => {
+    let allItems = getDb(DB_NAME);
+    if (!allItems) {
+      allItems = initialItems;
+      updateDb(DB_NAME, initialItems);
+    }
+
+    this.setState({ items: allItems });
   };
 
   render() {
@@ -32,7 +59,7 @@ class App extends Component {
     return (
       <div className="app">
         <AddItemForm onSubmit={this.handleSubmit} />
-        <AllItems items={items} />
+        <AllItems items={items} onDelete={this.handleDelete} />
       </div>
     );
   }
