@@ -6,7 +6,12 @@ export const getDb = key => {
 };
 
 export const updateDb = (key, items) => {
-  localStorage[key] = JSON.stringify(items);
+  try {
+    localStorage[key] = JSON.stringify(items);
+  } catch (err) {
+    console.log("Something went wrong!!\nSee the Error below.");
+    console.log(err);
+  }
 };
 
 export const getItem = id => {
