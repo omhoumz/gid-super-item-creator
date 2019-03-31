@@ -9,8 +9,8 @@ import {
   getDb,
   updateDb,
   deleteItem,
-  getItem
-  // saveItem
+  getItem,
+  addItem
 } from "./db/db";
 import { getBase64Image } from "./utils";
 import { initialItems } from "./db/data";
@@ -20,7 +20,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      items: []
+      items: [],
+      form_state: "adding-item"
     };
   }
 
@@ -28,15 +29,35 @@ class App extends Component {
     this.updateState();
   };
 
-  handleSubmit = async ({ title, city, imageFile }) => {
-    await getBase64Image(imageFile).then(base64 => {
-      const newItem = { id: uuidv1(), city, title, image: base64 };
-      const newItems = [newItem, ...getDb(DB_NAME)];
+  handleSubmit = async ({ id, title, city, imageFile }) => {
+    let newItem = {};
 
-      updateDb(DB_NAME, newItems);
-    });
+    if (id) {
+      let newImageFile = "";
+      if (!imageFile) {
+        const oldItem = getItem(id);
+        newImageFile = oldItem.image;
+      } else {
+        await getBase64Image(imageFile).then(base64 => {
+          newImageFile = base64;
+        });
+      }
 
-    this.setState({ items: getDb(DB_NAME) });
+      deleteItem(id);
+      newItem = { id, city, title, image: newImageFile };
+    } else {
+      let imageFileBase24 = "";
+      await getBase64Image(imageFile).then(base64 => {
+        imageFileBase24 = base64;
+      });
+
+      newItem = { id: uuidv1(), city, title, image: imageFileBase24 };
+    }
+
+    this.setState({ form_state: "adding-item" });
+
+    addItem(newItem);
+    this.updateState();
   };
 
   handleDelete = id => {
@@ -46,9 +67,9 @@ class App extends Component {
 
   handleEdit = id => {
     this.setState({
-      edited_item: { ...getItem(id) }
+      edited_item: { ...getItem(id) },
+      form_state: "editing-item"
     });
-    console.log(getItem(id));
   };
 
   updateState = () => {
@@ -62,14 +83,25 @@ class App extends Component {
   };
 
   render() {
-    const { items } = this.state;
+    const { items, edited_item, form_state } = this.state;
+
     return (
       <div className="app">
-        <ItemForm
-          onSubmit={this.handleSubmit}
-          heading="Edit Item"
-          buttonLabel="ADD ITEM"
-        />
+        {form_state === "editing-item" ? (
+          <ItemForm
+            edit_item={edited_item}
+            onSubmit={this.handleSubmit}
+            heading="Edit Item:"
+            buttonLabel="EDIT ITEM"
+          />
+        ) : (
+          <ItemForm
+            onSubmit={this.handleSubmit}
+            heading="Add Item:"
+            buttonLabel="ADD ITEM"
+          />
+        )}
+
         <AllItems
           items={items}
           onDelete={this.handleDelete}

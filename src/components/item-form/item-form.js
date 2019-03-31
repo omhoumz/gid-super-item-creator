@@ -14,6 +14,19 @@ export class ItemForm extends React.PureComponent {
     this.fileInput = React.createRef();
   }
 
+  componentDidUpdate = () => {
+    const { edit_item } = this.props;
+    const { title, city } = this.state;
+
+    const newTitle = title || (edit_item && edit_item.title);
+    const newCity = city || (edit_item && edit_item.city);
+
+    this.setState({
+      title: newTitle || "",
+      city: newCity || ""
+    });
+  };
+
   onChange = event => {
     const key = event.target.name;
     const value = event.target.type !== "file" && event.target.value;
@@ -24,10 +37,13 @@ export class ItemForm extends React.PureComponent {
   onSubmit = event => {
     event.preventDefault();
 
+    const { edit_item } = this.props;
+    const id = edit_item && edit_item.id;
+
     const { title, city } = this.state;
     const imageFile = this.fileInput.current.files[0];
 
-    if (title === "" || city === "" || !imageFile) {
+    if (title === "" || city === "" || (!id && !imageFile)) {
       alert("Fill all fields!");
       return;
     }
@@ -38,12 +54,11 @@ export class ItemForm extends React.PureComponent {
 
     this.setState({ title: "", city: "" });
 
-    this.props.onSubmit({ title, city, imageFile });
+    this.props.onSubmit({ id: id || null, title, city, imageFile });
   };
 
   render() {
     const { buttonLabel, heading } = this.props;
-
     const { title, city } = this.state;
 
     return (
