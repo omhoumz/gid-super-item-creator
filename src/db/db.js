@@ -31,7 +31,7 @@ export class DB {
     const newItems = oldItems.map(oldItem =>
       oldItem.id === item.id ? { ...item } : { ...oldItem }
     );
-    updateDb(newItems);
+    this.update(newItems);
   };
 
   deleteItem = id => {
