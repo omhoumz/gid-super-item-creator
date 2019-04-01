@@ -4,17 +4,14 @@ import uuidv1 from "uuid/v1";
 import { AllItems } from "./components/all-items/all-items";
 import { ItemForm } from "./components/item-form/item-form";
 
-import {
-  DB_NAME,
-  getDb,
-  updateDb,
-  deleteItem,
-  getItem,
-  addItem
-} from "./db/db";
+import { DB } from "./db/db";
+import { DB_NAME } from "./config";
 import { getBase64Image } from "./utils";
 import { initialItems, FORM_STATES } from "./db/data";
 import "./my-app.css";
+
+// init the db
+const db = new DB(DB_NAME);
 
 class App extends Component {
   constructor() {
@@ -35,7 +32,7 @@ class App extends Component {
     if (id) {
       let newImageFile = "";
       if (!imageFile) {
-        const oldItem = getItem(id);
+        const oldItem = db.getItem(id);
         newImageFile = oldItem.image;
       } else {
         await getBase64Image(imageFile).then(base64 => {
@@ -43,7 +40,7 @@ class App extends Component {
         });
       }
 
-      deleteItem(id);
+      db.deleteItem(id);
       newItem = { id, city, title, image: newImageFile };
     } else {
       let imageFileBase24 = "";
@@ -56,27 +53,29 @@ class App extends Component {
 
     this.setState({ form_state: FORM_STATES.ADDING_ITEMS });
 
-    addItem(newItem);
+    db.addItem(newItem);
     this.updateState();
   };
 
   handleDelete = id => {
-    deleteItem(id);
+    console.log(db.getItem(id));
+    db.deleteItem(id);
     this.updateState();
   };
 
   handleEdit = id => {
+    const edited_item = db.getItem(id);
     this.setState({
-      edited_item: { ...getItem(id) },
+      edited_item,
       form_state: FORM_STATES.EDITING_ITEM
     });
   };
 
   updateState = () => {
-    let allItems = getDb(DB_NAME);
+    let allItems = db.get();
     if (!allItems) {
       allItems = initialItems;
-      updateDb(DB_NAME, initialItems);
+      db.update(initialItems);
     }
 
     this.setState({ items: allItems });
