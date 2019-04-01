@@ -1,39 +1,42 @@
-export const DB_NAME = "allItemsDb";
-
-export const getDb = key => {
-  const ls = localStorage[key];
-  return ls ? JSON.parse(ls) : null;
-};
-
-export const updateDb = (key, items) => {
-  try {
-    localStorage[key] = JSON.stringify(items);
-  } catch (err) {
-    console.log("Something went wrong!!\nSee the Error below.");
-    console.log(err);
+export class DB {
+  constructor(db_name) {
+    this.db_name = db_name;
   }
-};
+  get = () => {
+    const localDb = localStorage[this.db_name];
+    return localDb ? JSON.parse(localDb) : null;
+  };
 
-export const getItem = id => {
-  const allItems = getDb(DB_NAME);
-  return allItems.find(item => item.id === id);
-};
+  update = items => {
+    try {
+      localStorage[this.db_name] = JSON.stringify(items);
+    } catch (err) {
+      console.log("Something went wrong!!\nSee the Error below.");
+      console.log(err);
+    }
+  };
 
-export const addItem = item => {
-  const oldItems = getDb(DB_NAME);
-  updateDb(DB_NAME, [item, ...oldItems]);
-};
+  getItem = id => {
+    const allItems = this.get();
+    return allItems.find(item => item.id === id);
+  };
 
-export const updateItem = item => {
-  const oldItems = getDb(DB_NAME);
-  const newItems = oldItems.map(oldItem =>
-    oldItem.id === item.id ? { ...item } : { ...oldItem }
-  );
-  updateDb(DB_NAME, newItems);
-};
+  addItem = item => {
+    const oldItems = this.get();
+    this.update([item, ...oldItems]);
+  };
 
-export const deleteItem = id => {
-  const oldItems = getDb(DB_NAME);
-  const newItems = oldItems.filter(item => item.id !== id);
-  updateDb(DB_NAME, newItems);
-};
+  updateItem = item => {
+    const oldItems = this.get();
+    const newItems = oldItems.map(oldItem =>
+      oldItem.id === item.id ? { ...item } : { ...oldItem }
+    );
+    updateDb(newItems);
+  };
+
+  deleteItem = id => {
+    const oldItems = this.get();
+    const newItems = oldItems.filter(item => item.id !== id);
+    this.update(newItems);
+  };
+}
