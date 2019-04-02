@@ -58,7 +58,6 @@ class App extends Component {
   };
 
   handleDelete = id => {
-    console.log(db.getItem(id));
     db.deleteItem(id);
     this.updateState();
   };

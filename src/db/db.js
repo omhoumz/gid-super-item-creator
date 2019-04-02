@@ -2,6 +2,7 @@ export class DB {
   constructor(db_name) {
     this.db_name = db_name;
   }
+
   get = () => {
     const localDb = localStorage[this.db_name];
     return localDb ? JSON.parse(localDb) : null;
