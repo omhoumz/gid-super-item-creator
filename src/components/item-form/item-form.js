@@ -15,6 +15,7 @@ export class ItemForm extends React.PureComponent {
   }
 
   componentDidUpdate = () => {
+    // This is a controlled component with the capacity to set initial values
     const { edit_item } = this.props;
     const { title, city } = this.state;
 
@@ -29,6 +30,7 @@ export class ItemForm extends React.PureComponent {
 
   onChange = event => {
     const key = event.target.name;
+    // files are readonly
     const value = event.target.type !== "file" && event.target.value;
 
     this.setState({ [key]: value });

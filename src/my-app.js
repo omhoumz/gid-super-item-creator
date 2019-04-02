@@ -30,6 +30,9 @@ class App extends Component {
     let newItem = {};
 
     if (id) {
+      // If I have an 'id' ==> edit it the item
+
+      // Get the new image
       let newImageFile = "";
       if (!imageFile) {
         const oldItem = db.getItem(id);
@@ -40,9 +43,13 @@ class App extends Component {
         });
       }
 
+      // Delete the old item
       db.deleteItem(id);
+
+      // Constract a newItem
       newItem = { id, city, title, image: newImageFile };
     } else {
+      // Constract a newItem
       let imageFileBase24 = "";
       await getBase64Image(imageFile).then(base64 => {
         imageFileBase24 = base64;
@@ -51,10 +58,11 @@ class App extends Component {
       newItem = { id: uuidv1(), city, title, image: imageFileBase24 };
     }
 
-    this.setState({ form_state: FORM_STATES.ADDING_ITEMS });
-
+    // Add the newItem
     db.addItem(newItem);
     this.updateState();
+
+    this.setState({ form_state: FORM_STATES.ADDING_ITEMS });
   };
 
   handleDelete = id => {
